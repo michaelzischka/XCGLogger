@@ -186,11 +186,12 @@ open class XCGLogger: CustomDebugStringConvertible {
     ///     - showDate: Whether or not to output the date the log was created. **Default:** true
     ///     - writeToFile: FileURL or path (as String) to a file to log all messages to (this file is overwritten each time the logger is created). **Default:** nil => no log file
     ///     - fileLevel: An alternate log level for the file destination. **Default:** nil => use the same log level as the console destination
+    ///     - showAppDetails: Whether or not to output the app details. **Default:** true
     ///
     /// - Returns:  Nothing
     ///
-    open class func setup(level: Level = .debug, showLogIdentifier: Bool = false, showFunctionName: Bool = true, showThreadName: Bool = false, showLevel: Bool = true, showFileNames: Bool = true, showLineNumbers: Bool = true, showDate: Bool = true, writeToFile: Any? = nil, fileLevel: Level? = nil) {
-        self.default.setup(level: level, showLogIdentifier: showLogIdentifier, showFunctionName: showFunctionName, showThreadName: showThreadName, showLevel: showLevel, showFileNames: showFileNames, showLineNumbers: showLineNumbers, showDate: showDate, writeToFile: writeToFile)
+    open class func setup(level: Level = .debug, showLogIdentifier: Bool = false, showFunctionName: Bool = true, showThreadName: Bool = false, showLevel: Bool = true, showFileNames: Bool = true, showLineNumbers: Bool = true, showDate: Bool = true, writeToFile: Any? = nil, fileLevel: Level? = nil, showAppDetails: Bool = true) {
+        self.default.setup(level: level, showLogIdentifier: showLogIdentifier, showFunctionName: showFunctionName, showThreadName: showThreadName, showLevel: showLevel, showFileNames: showFileNames, showLineNumbers: showLineNumbers, showDate: showDate, writeToFile: writeToFile, showAppDetails: showAppDetails)
     }
 
     /// A shortcut method to configure the logger.
@@ -208,10 +209,11 @@ open class XCGLogger: CustomDebugStringConvertible {
     ///     - showDate: Whether or not to output the date the log was created. **Default:** true
     ///     - writeToFile: FileURL or path (as String) to a file to log all messages to (this file is overwritten each time the logger is created). **Default:** nil => no log file
     ///     - fileLevel: An alternate log level for the file destination. **Default:** nil => use the same log level as the console destination
-    ///
+    ///     - showAppDetails: Whether or not to output the app details. **Default:** true
+		///
     /// - Returns:  Nothing
     ///
-    open func setup(level: Level = .debug, showLogIdentifier: Bool = false, showFunctionName: Bool = true, showThreadName: Bool = false, showLevel: Bool = true, showFileNames: Bool = true, showLineNumbers: Bool = true, showDate: Bool = true, writeToFile: Any? = nil, fileLevel: Level? = nil) {
+    open func setup(level: Level = .debug, showLogIdentifier: Bool = false, showFunctionName: Bool = true, showThreadName: Bool = false, showLevel: Bool = true, showFileNames: Bool = true, showLineNumbers: Bool = true, showDate: Bool = true, writeToFile: Any? = nil, fileLevel: Level? = nil, showAppDetails: Bool = true) {
         outputLevel = level
 
         if let standardConsoleDestination = destination(withIdentifier: XCGLogger.Constants.baseConsoleDestinationIdentifier) as? ConsoleDestination {
@@ -241,8 +243,10 @@ open class XCGLogger: CustomDebugStringConvertible {
             add(destination: standardFileDestination)
         }
 
-        logAppDetails()
-    }
+        if showAppDetails {
+            logAppDetails()
+        }
+	}
 
     // MARK: - Logging methods
     /// Log a message if the logger's log level is equal to or lower than the specified level.
