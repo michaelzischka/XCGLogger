@@ -121,7 +121,11 @@ open class BaseDestination: DestinationProtocol, CustomDebugStringConvertible {
             extendedDetails += "\(logDetails.functionName) "
         }
 
-        output(logDetails: logDetails, message: "\(extendedDetails)> \(logDetails.message)")
+				if !extendedDetails.isEmpty {
+					extendedDetails += "> "
+				}
+
+        output(logDetails: logDetails, message: "\(extendedDetails)\(logDetails.message)")
     }
 
     /// Process the log details (internal use, same as process(logDetails:) but omits function/file/line info).
