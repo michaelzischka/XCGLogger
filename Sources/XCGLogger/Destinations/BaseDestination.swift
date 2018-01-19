@@ -152,7 +152,11 @@ open class BaseDestination: DestinationProtocol, CustomDebugStringConvertible {
             extendedDetails += "[\(owner.identifier)] "
         }
 
-        output(logDetails: logDetails, message: "\(extendedDetails)> \(logDetails.message)")
+        if !extendedDetails.isEmpty {
+            extendedDetails += "> "
+        }
+
+        output(logDetails: logDetails, message: "\(extendedDetails)\(logDetails.message)")
     }
 
     // MARK: - Misc methods
