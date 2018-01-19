@@ -246,7 +246,11 @@ open class XCGLogger: CustomDebugStringConvertible {
         if showAppDetails {
             logAppDetails()
         }
-	}
+
+        for var destination in destinations {
+            destination.haveLoggedAppDetails = true
+				}
+}
 
     // MARK: - Logging methods
     /// Log a message if the logger's log level is equal to or lower than the specified level.
