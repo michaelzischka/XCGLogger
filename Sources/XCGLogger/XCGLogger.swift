@@ -225,6 +225,10 @@ open class XCGLogger: CustomDebugStringConvertible {
             standardConsoleDestination.showLineNumber = showLineNumbers
             standardConsoleDestination.showDate = showDate
             standardConsoleDestination.outputLevel = level
+
+            if !showAppDetails {
+                standardConsoleDestination.haveLoggedAppDetails = true
+            }
         }
 
         if let writeToFile: Any = writeToFile {
@@ -240,16 +244,16 @@ open class XCGLogger: CustomDebugStringConvertible {
             standardFileDestination.showDate = showDate
             standardFileDestination.outputLevel = fileLevel ?? level
 
+            if !showAppDetails {
+                standardFileDestination.haveLoggedAppDetails = true
+            }
+
             add(destination: standardFileDestination)
         }
 
         if showAppDetails {
             logAppDetails()
         }
-
-        for var destination in destinations {
-            destination.haveLoggedAppDetails = true
-				}
 }
 
     // MARK: - Logging methods
