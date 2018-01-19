@@ -118,6 +118,10 @@ open class FileDestination: BaseQueuedDestination {
             return
         }
 
+        if haveLoggedAppDetails {
+            return
+				}
+
         owner.logAppDetails(selectedDestination: self)
 
         let logDetails = LogDetails(level: .info, date: Date(), message: "XCGLogger " + (fileExists && shouldAppend ? "appending" : "writing") + " log to: " + writeToFileURL.absoluteString, functionName: "", fileName: "", lineNumber: 0, userInfo: XCGLogger.Constants.internalUserInfo)
